@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_1;
     public FluidSlider slider =null;
 
-    @SuppressWarnings("Convert2Lambda")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
-
+    @SuppressWarnings("Convert2Lambda")
     void fluidSlider()
     {
         final float max = 7;
@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//
-//        slider.setPositionListener(pos -> {
-//            String value = String.valueOf( round((float) (min + total * pos),2) );
-//            slider.setBubbleText(value);
-//            return Unit.INSTANCE;
-//        });
+
+        slider.setPositionListener(pos -> {
+            String value = String.valueOf( round((float) (min + total * pos),2) );
+            slider.setBubbleText(value);
+            return Unit.INSTANCE;
+        });
 
         slider.setPosition(0.3f);
         slider.setStartText(String.valueOf(min));
