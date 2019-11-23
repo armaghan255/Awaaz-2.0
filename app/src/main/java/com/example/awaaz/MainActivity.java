@@ -1,7 +1,5 @@
 package com.example.awaaz;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
@@ -20,10 +20,10 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         slider.setPositionListener(pos -> {
-            String value = String.valueOf( round((float) (min + total * pos),2) );
+            String value = String.valueOf(round(min + total * pos, 2));
             slider.setBubbleText(value);
             double temp=Double.parseDouble(value);
             temp=temp*1000;
@@ -141,14 +141,17 @@ public class MainActivity extends AppCompatActivity {
                         // capturedImage contains the image from the CameraKitView.
                         Toast.makeText(MainActivity.this, "Captured", Toast.LENGTH_SHORT).show();
                         Bitmap bitmap= BitmapFactory.decodeByteArray(capturedImage,0,capturedImage.length);
+                        Mat src = new Mat();
+                        Utils.bitmapToMat(bitmap, src);
                         Mat mat=new Mat();
-                        Utils.bitmapToMat(bitmap,mat);
-                        Imgproc.cvtColor(mat,mat,Imgproc.COLOR_RGB2GRAY);
+                        Imgproc.cvtColor(src, mat, Imgproc.COLOR_RGB2GRAY);
                         Imgproc.threshold(mat,mat,0,255,Imgproc.THRESH_BINARY+Imgproc.THRESH_OTSU);
                         List<MatOfPoint> contours = new ArrayList<>();
-
-                        Imgproc.findContours(mat,contours,mat,Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_NONE);
-                        Imgproc.drawContours(mat, contours, -1, new Scalar(0, 255, 0, 255), 3);
+                        Mat hierarchy = new Mat();
+                        Imgproc.findContours(mat, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+                        Imgproc.drawContours(src, contours, -1, new Scalar(0, 0, 255), -1);
+                        //Imgproc.findContours(mat,contours,mat,Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_NONE);
+                        //Imgproc.drawContours(mat, contours, -1, new Scalar(0, 255, 0, 255), 3);
                         Utils.matToBitmap(mat,bitmap);
                         imageView.setImageBitmap(bitmap);
 
