@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTap(CameraKitView cameraKitView, float v, float v1) {
                 cameraKitView.setFlash(CameraKit.FLASH_ON);
-
             }
 
             @Override
