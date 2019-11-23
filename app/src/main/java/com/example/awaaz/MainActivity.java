@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                         Imgproc.drawContours(mat, contours, -1, new Scalar(0, 255, 0, 255), 3);
                         Utils.matToBitmap(mat,bitmap);
                         imageView.setImageBitmap(bitmap);
+
                     }
                 });
             }
