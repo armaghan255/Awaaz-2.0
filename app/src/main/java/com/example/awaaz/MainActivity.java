@@ -150,8 +150,6 @@ public class MainActivity extends AppCompatActivity {
                         Mat hierarchy = new Mat();
                         Imgproc.findContours(mat, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
                         Imgproc.drawContours(src, contours, -1, new Scalar(0, 0, 255), -1);
-                        //Imgproc.findContours(mat,contours,mat,Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_NONE);
-                        //Imgproc.drawContours(mat, contours, -1, new Scalar(0, 255, 0, 255), 3);
                         Utils.matToBitmap(mat,bitmap);
                         imageView.setImageBitmap(bitmap);
 
