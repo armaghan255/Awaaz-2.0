@@ -90,15 +90,20 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:keepScreenOn="true"
+        app:camera_flash="auto"
         app:camera_facing="back"
-        app:camera_flash="off"
         app:camera_focus="continuous"
-        app:camera_permissions="camera"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent">
+        app:camera_permissions="camera" >
 
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
     </com.camerakit.CameraKitView>
 
     <androidx.constraintlayout.widget.Guideline
