@@ -3,7 +3,9 @@ package com.example.awaaz;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
@@ -71,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        slider.setPositionListener(pos -> {
-            String value = String.valueOf( round((float) (min + total * pos),2) );
-            slider.setBubbleText(value);
-            return Unit.INSTANCE;
-        });
+//
+//        slider.setPositionListener(pos -> {
+//            String value = String.valueOf( round((float) (min + total * pos),2) );
+//            slider.setBubbleText(value);
+//            return Unit.INSTANCE;
+//        });
 
         slider.setPosition(0.3f);
         slider.setStartText(String.valueOf(min));
@@ -98,7 +101,14 @@ public class MainActivity extends AppCompatActivity {
         cameraKitView.setGestureListener(new CameraKitView.GestureListener() {
             @Override
             public void onTap(CameraKitView cameraKitView, float v, float v1) {
-                cameraKitView.setFlash(CameraKit.FLASH_ON);
+                Log.e("Tag","On Tap");
+
+                cameraKitView.captureFrame(new CameraKitView.FrameCallback() {
+                    @Override
+                    public void onFrame(CameraKitView cameraKitView, byte[] bytes) {
+                        Toast.makeText(MainActivity.this, "sed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
