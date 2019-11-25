@@ -1,8 +1,5 @@
 package com.example.awaaz;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.Guideline;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,6 +8,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
@@ -29,72 +28,39 @@ import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
-import smartdevelop.ir.eram.showcaseviewlib.GuideView;
-import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
-import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
-import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 import spencerstudios.com.fab_toast.FabToast;
 
 public class MainActivity extends AppCompatActivity {
 
     private CameraKitView cameraKitView;
     MFabButtons mFabButtons;
-    com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_1,fab_button_2,fab_button_3,fab_button_4;
+    com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_1;
     public FluidSlider slider =null;
-    GuideView mGuideView;
-    GuideView.Builder builder;
-    Guideline guideline;
     FrameLayout frameLayout;
-    ImageView imageView,imgview;
+    ImageView imageView;
     MySurface mySurface;
     Bitmap background;
-    boolean check=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cameraKitView = findViewById(R.id.camera);
- imgview = findViewById(R.id.imgView);
-        slider = findViewById(R.id.fluidSlider);
-        guideline =findViewById(R.id.guideline);
         mySurface = new MySurface(this);
         frameLayout = findViewById(R.id.frameLayout);
         frameLayout.addView(mySurface);
+        imageView = findViewById(R.id.imgView);
+        cameraKitView = findViewById(R.id.camera);
+        slider = findViewById(R.id.fluidSlider);
+
         setType();
         if(OpenCVLoader.initDebug())
         {
-            FabToast.makeText(MainActivity.this, "OpenCV Attached Successfully", FabToast.LENGTH_LONG, FabToast.SUCCESS,  FabToast.POSITION_DEFAULT).show();
+            Log.e("Opencv", "Loaded");
         }
         else
             FabToast.makeText(MainActivity.this, "OpenCV Didn't Attached Successfully", FabToast.LENGTH_LONG, FabToast.ERROR,  FabToast.POSITION_DEFAULT).show();
 
-
         fluidSlider();
         slider.setVisibility(View.INVISIBLE);
-        builder = new GuideView.Builder(this)
-                .setTitle("Guide Title Text")
-                .setContentText("Long Press on Screen\n.....")
-                .setGravity(Gravity.center)
-                .setDismissType(DismissType.outside)
-                .setTargetView(guideline)
-                .setGuideListener(new GuideListener() {
-                    @Override
-                    public void onDismiss(View view) {
-                        switch (view.getId()) {
-                            case R.id.guideline:
-                                return;
-                            case R.id.fab_button_1:
-                                builder.setContentText("select it").setTargetView(fab_button_1).build();
-                            break;
-                        }
-                        mGuideView = builder.build();
-                        mGuideView.show();
-                    }
-                });
-
-        mGuideView = builder.build();
-        mGuideView.show();
-
 
     }
 
@@ -103,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
-    @SuppressWarnings("Convert2Lambda")
     void fluidSlider()
     {
         final float max = 7;
@@ -124,11 +89,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        slider.setPositionListener(pos -> {
-            String value = String.valueOf( round((float) (min + total * pos),2) );
-            slider.setBubbleText(value);
-            return Unit.INSTANCE;
-        });
 
         slider.setPosition(0.3f);
         slider.setStartText(String.valueOf(min));
@@ -137,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setType() {
         fab_button_1 = findViewById(R.id.fab_button_1);
-        fab_button_2 = findViewById(R.id.fab_button_2);
-        fab_button_3 = findViewById(R.id.fab_button_3);
-        fab_button_4 = findViewById(R.id.fab_button_4);
+        com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_2 = findViewById(R.id.fab_button_2);
+        com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_3 = findViewById(R.id.fab_button_3);
+        FloatingActionButton fab_button_4 = findViewById(R.id.fab_button_4);
         fab_button_1.hide();
         mFabButtons = new MFabButtons(MainActivity.this, fab_button_1, fab_button_2, fab_button_3, fab_button_4,slider);
     }
@@ -150,8 +110,9 @@ public class MainActivity extends AppCompatActivity {
         cameraKitView.onStart();
         cameraKitView.setGestureListener(new CameraKitView.GestureListener() {
             @Override
-            public void onTap(CameraKitView cameraKitView, float v, float v1) {
+            public void onTap(CameraKitView ckV, float v, float v1) {
                 Log.e("Tag","On Tap");
+
                 cameraKitView.captureImage(new CameraKitView.ImageCallback() {
                     @Override
                     public void onImage(CameraKitView cameraKitView, byte[] bytes) {
@@ -175,65 +136,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongTap(CameraKitView cameraKitView, float v, float v1) {
-//     if(cameraKitView.getFlash()==CameraKit.FLASH_OFF)
-//     {
-//         cameraKitView.setFlash(CameraKit.FLASH_TORCH);
-//     }
-//     else
-//     {
-//         cameraKitView.setFlash(CameraKit.FLASH_OFF);
-//     }
-                if (check){
                 fab_button_1.show();
-
-                builder = new GuideView.Builder(MainActivity.this)
-                        .setTitle("Intro")
-                        .setContentText("By clicking here\n you got access to different modules.....")
-                        .setGravity(Gravity.auto)
-                        .setDismissType(DismissType.targetView)
-                        .setTargetView(fab_button_1)
-                        .setGuideListener(new GuideListener() {
-                            @Override
-                            public void onDismiss(View view) {
-                                switch (view.getId()) {
-                                    case R.id.fab_button_1:
-                                        builder.setContentText("fab button 2").setDismissType(DismissType.outside).setTargetView(fab_button_2).build();
-                                        break;
-                                    case R.id.fab_button_2:
-                                        builder.setContentText("fab button 3").setDismissType(DismissType.outside).setTargetView(fab_button_3).build();
-                                        break;
-                                    case R.id.fab_button_3:
-                                        return;
-                                }
-                                mGuideView = builder.build();
-                                mGuideView.show();
-                            }
-                        });
-
-                mGuideView = builder.build();
-                mGuideView.show();
-                check=false;
-                }
-                else{
-                    fab_button_1.hide();
-                    check=true;
-                }
-
             }
 
             @Override
             public void onDoubleTap(CameraKitView cameraKitView, float v, float v1) {
-                if(cameraKitView.getFacing()==CameraKit.FACING_FRONT)
-                {
-                    cameraKitView.setFacing(CameraKit.FACING_BACK);
-                }
-                else
-                    cameraKitView.setFacing(CameraKit.FACING_FRONT);
+                cameraKitView.captureImage(new CameraKitView.ImageCallback() {
+                    @Override
+                    public void onImage(CameraKitView cameraKitView, byte[] bytes) {
+                        background = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        Toast.makeText(MainActivity.this, "background captured", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onPinch(CameraKitView cameraKitView, float v, float v1, float v2) {
-
+                if (cameraKitView.getFacing() == CameraKit.FACING_FRONT) {
+                    cameraKitView.setFacing(CameraKit.FACING_BACK);
+                } else
+                    cameraKitView.setFacing(CameraKit.FACING_FRONT);
             }
         });
 
@@ -262,27 +184,4 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-    public void flipcamera_click(View view) {
-        cameraKitView.captureImage(new CameraKitView.ImageCallback() {
-            @Override
-            public void onImage(CameraKitView cameraKitView, byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Mat src = new Mat();
-                Utils.bitmapToMat(bitmap, src);
-                Mat gray = new Mat();
-                Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGB2GRAY);
-                Mat imdt = new Mat();
-                //Imgproc.Canny(gray,imdt,80,100);
-                List contours = new ArrayList<MatOfPoint>();
-                Mat dest = new Mat();
-                //Imgproc.findContours(imdt,contours,dest,Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
-                //Imgproc.drawContours(gray,contours,-1,new Scalar(0, 255, 255));//, 2, 8, hierarchy, 0, new Point()););
-                Utils.matToBitmap(gray, bitmap);
-                imgview.setImageBitmap(bitmap);
-            }
-
-        });
-    }
-
 }

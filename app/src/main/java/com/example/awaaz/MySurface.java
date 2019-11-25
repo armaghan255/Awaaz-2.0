@@ -20,8 +20,8 @@ public class MySurface extends View {
         super.onDraw(canvas);
 
         paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(01);
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(04);
 
         //center
         int x0 = canvas.getWidth() / 2;
@@ -31,6 +31,6 @@ public class MySurface extends View {
         //draw guide box
         Log.e("Tag", "Width" + canvas.getWidth());
         Log.e("Tag", "Height" + canvas.getHeight());
-        canvas.drawRect(x0 - dx, y0 - dy, x0 + dx, y0 + dy, paint);
+        canvas.drawRect(200, 300, 1200, 2000, paint);
     }
 }
