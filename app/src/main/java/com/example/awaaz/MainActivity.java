@@ -3,9 +3,13 @@ package com.example.awaaz;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Guideline;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.camerakit.CameraKit;
@@ -14,8 +18,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ramotion.fluidslider.FluidSlider;
 
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.imgproc.Imgproc;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
@@ -34,14 +44,22 @@ public class MainActivity extends AppCompatActivity {
     GuideView mGuideView;
     GuideView.Builder builder;
     Guideline guideline;
-
+    FrameLayout frameLayout;
+    ImageView imageView,imgview;
+    MySurface mySurface;
+    Bitmap background;
+    boolean check=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         cameraKitView = findViewById(R.id.camera);
+ imgview = findViewById(R.id.imgView);
         slider = findViewById(R.id.fluidSlider);
         guideline =findViewById(R.id.guideline);
+        mySurface = new MySurface(this);
+        frameLayout = findViewById(R.id.frameLayout);
+        frameLayout.addView(mySurface);
         setType();
         if(OpenCVLoader.initDebug())
         {
@@ -134,12 +152,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTap(CameraKitView cameraKitView, float v, float v1) {
                 Log.e("Tag","On Tap");
-
-                cameraKitView.captureFrame(new CameraKitView.FrameCallback() {
+                cameraKitView.captureImage(new CameraKitView.ImageCallback() {
                     @Override
-                    public void onFrame(CameraKitView cameraKitView, byte[] bytes) {
-                        Toast.makeText(MainActivity.this, "sed", Toast.LENGTH_SHORT).show();
+                    public void onImage(CameraKitView cameraKitView, byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        Mat src = new Mat();
+                        Utils.bitmapToMat(bitmap, src);
+                        Mat gray = new Mat();
+                        Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGB2GRAY);
+                        Mat imdt = new Mat();
+                        //Imgproc.Canny(gray,imdt,80,100);
+                        List contours = new ArrayList<MatOfPoint>();
+                        Mat dest = new Mat();
+                        //Imgproc.findContours(imdt,contours,dest,Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+                        //Imgproc.drawContours(gray,contours,-1,new Scalar(0, 255, 255));//, 2, 8, hierarchy, 0, new Point()););
+                        Utils.matToBitmap(gray, bitmap);
+                        imageView.setImageBitmap(bitmap);
                     }
+
                 });
             }
 
@@ -153,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
 //     {
 //         cameraKitView.setFlash(CameraKit.FLASH_OFF);
 //     }
+                if (check){
                 fab_button_1.show();
 
                 builder = new GuideView.Builder(MainActivity.this)
@@ -181,6 +212,12 @@ public class MainActivity extends AppCompatActivity {
 
                 mGuideView = builder.build();
                 mGuideView.show();
+                check=false;
+                }
+                else{
+                    fab_button_1.hide();
+                    check=true;
+                }
 
             }
 
@@ -225,4 +262,27 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    public void flipcamera_click(View view) {
+        cameraKitView.captureImage(new CameraKitView.ImageCallback() {
+            @Override
+            public void onImage(CameraKitView cameraKitView, byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Mat src = new Mat();
+                Utils.bitmapToMat(bitmap, src);
+                Mat gray = new Mat();
+                Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGB2GRAY);
+                Mat imdt = new Mat();
+                //Imgproc.Canny(gray,imdt,80,100);
+                List contours = new ArrayList<MatOfPoint>();
+                Mat dest = new Mat();
+                //Imgproc.findContours(imdt,contours,dest,Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+                //Imgproc.drawContours(gray,contours,-1,new Scalar(0, 255, 255));//, 2, 8, hierarchy, 0, new Point()););
+                Utils.matToBitmap(gray, bitmap);
+                imgview.setImageBitmap(bitmap);
+            }
+
+        });
+    }
+
 }

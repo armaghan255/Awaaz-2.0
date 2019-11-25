@@ -38,7 +38,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         onboardingFragment.setOnRightOutListener(new PaperOnboardingOnRightOutListener() {
             @Override
             public void onRightOut() {
-                Intent intent = new Intent(OnBoardingActivity.this, MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
             }
         });

@@ -95,6 +95,23 @@
         app:camera_focus="continuous"
         app:camera_permissions="camera" >
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="68dp"
+            android:layout_height="67dp"
+            android:layout_gravity="right"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:onClick="flipcamera_click"
+            android:background="@drawable/flipcameraicon" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
         <ImageView
             android:id="@+id/imgView"
             android:layout_width="250dp"
