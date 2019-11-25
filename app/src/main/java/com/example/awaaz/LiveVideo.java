@@ -1,6 +1,10 @@
 package com.example.awaaz;
 
+import android.content.Context;
+import android.content.Intent;
+
 public class LiveVideo {
+    Context context;
     private int id;
     private boolean endLiveVideo;
     private Frame frame;
@@ -30,8 +34,14 @@ public class LiveVideo {
         this.endLiveVideo = endLiveVideo;
     }
 
-    public LiveVideo(int id, boolean endLiveVideo) {
+    private void openCamera() {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
+
+    public LiveVideo(int id, boolean endLiveVideo, Context context) {
         this.id = id;
         this.endLiveVideo = endLiveVideo;
+        this.context = context;
     }
 }

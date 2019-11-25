@@ -3,6 +3,7 @@ package com.example.awaaz;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     MySurface mySurface;
     Bitmap background;
+    int interval;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,18 +52,34 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imgView);
         cameraKitView = findViewById(R.id.camera);
         slider = findViewById(R.id.fluidSlider);
-
+        interval = 2000;
         setType();
-        if(OpenCVLoader.initDebug())
-        {
+        if(OpenCVLoader.initDebug()) {
             Log.e("Opencv", "Loaded");
-        }
-        else
+        } else
             FabToast.makeText(MainActivity.this, "OpenCV Didn't Attached Successfully", FabToast.LENGTH_LONG, FabToast.ERROR,  FabToast.POSITION_DEFAULT).show();
 
         fluidSlider();
         slider.setVisibility(View.INVISIBLE);
+        getFrames();
+    }
 
+    private void getFrames() {
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                cameraKitView.captureImage(new CameraKitView.ImageCallback() {
+                    @Override
+                    public void onImage(CameraKitView cameraKitView, byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+                handler.postDelayed(this::run, interval);
+            }
+        };
+        handler.postDelayed(r, interval);
     }
 
     public static float round(float d, int decimalPlace) {
@@ -72,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     void fluidSlider()
     {
         final float max = 7;
-        final float min = 1;
+        final float min = 2;
         final float total = max - min;
         slider.setBeginTrackingListener(new Function0<Unit>() {
             @Override
@@ -87,7 +105,14 @@ public class MainActivity extends AppCompatActivity {
                 return Unit.INSTANCE;
             }
         });
-
+        slider.setPositionListener(pos -> {
+            String value = String.valueOf(round(min + total * pos, 2));
+            double temp = Double.parseDouble(value);
+            temp = temp * 1000;
+            interval = (int) temp;
+            slider.setBubbleText(value);
+            return Unit.INSTANCE;
+        });
 
 
         slider.setPosition(0.3f);
