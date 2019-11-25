@@ -21,7 +21,8 @@ public class OnBoardingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PaperOnboardingPage page = new PaperOnboardingPage("DONATE BLOOD","Donate Blood , Donate Life", R.color.green,R.drawable.settings,R.drawable.settings);
         PaperOnboardingPage page1 = new PaperOnboardingPage("HELP WHO NEEDS","A life may depend on a gesture from you, a bottle of Blood.!", Color.parseColor("#BF1F2D"),R.drawable.upload,R.drawable.upload);
         PaperOnboardingPage page2 = new PaperOnboardingPage("REQUEST BLOOD","A bottle of blood saved my life, was it yours.?", R.color.WhiteBg,R.drawable.video,R.drawable.video);

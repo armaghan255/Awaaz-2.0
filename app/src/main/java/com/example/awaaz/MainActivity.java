@@ -1,6 +1,7 @@
 package com.example.awaaz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Guideline;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,15 +19,21 @@ import java.math.BigDecimal;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 import spencerstudios.com.fab_toast.FabToast;
 
 public class MainActivity extends AppCompatActivity {
 
     private CameraKitView cameraKitView;
     MFabButtons mFabButtons;
-    com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_1;
+    com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_1,fab_button_2,fab_button_3,fab_button_4;
     public FluidSlider slider =null;
-
+    GuideView mGuideView;
+    GuideView.Builder builder;
+    Guideline guideline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         cameraKitView = findViewById(R.id.camera);
         slider = findViewById(R.id.fluidSlider);
+        guideline =findViewById(R.id.guideline);
         setType();
         if(OpenCVLoader.initDebug())
         {
@@ -45,6 +53,30 @@ public class MainActivity extends AppCompatActivity {
 
         fluidSlider();
         slider.setVisibility(View.INVISIBLE);
+        builder = new GuideView.Builder(this)
+                .setTitle("Guide Title Text")
+                .setContentText("Long Press on Screen\n.....")
+                .setGravity(Gravity.center)
+                .setDismissType(DismissType.outside)
+                .setTargetView(guideline)
+                .setGuideListener(new GuideListener() {
+                    @Override
+                    public void onDismiss(View view) {
+                        switch (view.getId()) {
+                            case R.id.guideline:
+                                return;
+                            case R.id.fab_button_1:
+                                builder.setContentText("select it").setTargetView(fab_button_1).build();
+                            break;
+                        }
+                        mGuideView = builder.build();
+                        mGuideView.show();
+                    }
+                });
+
+        mGuideView = builder.build();
+        mGuideView.show();
+
 
     }
 
@@ -87,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setType() {
         fab_button_1 = findViewById(R.id.fab_button_1);
-        com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_2 = findViewById(R.id.fab_button_2);
-        com.google.android.material.floatingactionbutton.FloatingActionButton fab_button_3 = findViewById(R.id.fab_button_3);
-        FloatingActionButton fab_button_4 = findViewById(R.id.fab_button_4);
+        fab_button_2 = findViewById(R.id.fab_button_2);
+        fab_button_3 = findViewById(R.id.fab_button_3);
+        fab_button_4 = findViewById(R.id.fab_button_4);
         fab_button_1.hide();
         mFabButtons = new MFabButtons(MainActivity.this, fab_button_1, fab_button_2, fab_button_3, fab_button_4,slider);
     }
@@ -122,6 +154,34 @@ public class MainActivity extends AppCompatActivity {
 //         cameraKitView.setFlash(CameraKit.FLASH_OFF);
 //     }
                 fab_button_1.show();
+
+                builder = new GuideView.Builder(MainActivity.this)
+                        .setTitle("Intro")
+                        .setContentText("By clicking here\n you got access to different modules.....")
+                        .setGravity(Gravity.auto)
+                        .setDismissType(DismissType.targetView)
+                        .setTargetView(fab_button_1)
+                        .setGuideListener(new GuideListener() {
+                            @Override
+                            public void onDismiss(View view) {
+                                switch (view.getId()) {
+                                    case R.id.fab_button_1:
+                                        builder.setContentText("fab button 2").setDismissType(DismissType.outside).setTargetView(fab_button_2).build();
+                                        break;
+                                    case R.id.fab_button_2:
+                                        builder.setContentText("fab button 3").setDismissType(DismissType.outside).setTargetView(fab_button_3).build();
+                                        break;
+                                    case R.id.fab_button_3:
+                                        return;
+                                }
+                                mGuideView = builder.build();
+                                mGuideView.show();
+                            }
+                        });
+
+                mGuideView = builder.build();
+                mGuideView.show();
+
             }
 
             @Override
