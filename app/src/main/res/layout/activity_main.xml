@@ -90,8 +90,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:keepScreenOn="true"
-        app:camera_flash="auto"
-        app:camera_facing="back"
+        app:camera_facing="front"
         app:camera_focus="continuous"
         app:camera_permissions="camera" >
 
@@ -104,6 +103,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </ImageView>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
     </com.camerakit.CameraKitView>
 
     <androidx.constraintlayout.widget.Guideline
@@ -111,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8108747" />
+        app:layout_constraintGuide_begin="585dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
