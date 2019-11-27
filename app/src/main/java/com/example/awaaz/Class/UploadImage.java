@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import com.example.awaaz.Activity.HomeActivity;
+
 import org.jetbrains.annotations.NotNull;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -16,6 +18,7 @@ import java.util.List;
 
 import gun0912.tedimagepicker.builder.TedImagePicker;
 import gun0912.tedimagepicker.builder.listener.OnMultiSelectedListener;
+import spencerstudios.com.fab_toast.FabToast;
 
 public class UploadImage {
     private List<Frame> frameList;
@@ -46,15 +49,15 @@ public class UploadImage {
                         try {
                             for (int i=0;i<uriList.size();i++) {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriList.get(i));
-                                Mat src=new Mat();
+                                Mat src = new Mat();
                                 Utils.bitmapToMat(bitmap,src);
                                 Frame frame=new Frame(i,src);
                                 addFrame(frame);
-                                Utils.matToBitmap(getFrameList().get(0).getImage(),bitmap);
-                                Toast.makeText(context, ""+frameList.size(), Toast.LENGTH_SHORT).show();
+                                FabToast.makeText(context, getFrameList().size()+"Pictures Uploaded.!", FabToast.LENGTH_LONG, FabToast.SUCCESS, FabToast.POSITION_CENTER).show();
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
+
                         }
 
                     }

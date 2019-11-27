@@ -9,11 +9,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.awaaz.R;
 
+import spencerstudios.com.fab_toast.FabToast;
+
 public class SplashScreen extends AppCompatActivity {
     FragmentTransaction ft;
+    EditText edtname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +44,33 @@ public class SplashScreen extends AppCompatActivity {
         }
         else {
             setContentView(R.layout.enter_name_layout);
+            edtname = findViewById(R.id.edt_enter_name);
         }
     }
 
     public void name_click_next(View view) {
-        SharedPreferences.Editor preferences = getSharedPreferences("users",MODE_PRIVATE).edit();
-        preferences.putString("login","done");
-        preferences.commit();
-        Intent intent = new Intent(this, OnBoardingActivity.class);
-        startActivity(intent);
+if(edtname.getText().toString().equals(""))
+{
+    FabToast.makeText(SplashScreen.this, "Kindly Enter your First Name.!", FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
+}
+else if(edtname.length()<3)
+{
+    FabToast.makeText(SplashScreen.this, "Enter your First Name.!", FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
+}
+else if (edtname.length()>15)
+{
+    FabToast.makeText(SplashScreen.this, "Enter your First Name Only.!", FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
+}
+else
+{
+    SharedPreferences.Editor preferences = getSharedPreferences("users",MODE_PRIVATE).edit();
+    preferences.putString("login","done");
+    preferences.putString("name",edtname.getText().toString());
+    preferences.commit();
+    Intent intent = new Intent(this, OnBoardingActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+
+}
     }
 }

@@ -96,22 +96,11 @@
         app:camera_focus="continuous"
         app:camera_permissions="camera" >
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="68dp"
-            android:layout_height="67dp"
-            android:layout_gravity="right"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:onClick="back_click"
-            android:background="@drawable/flipcameraicon" />
-
-
 
         <ImageView
             android:id="@+id/imgView"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="221dp"
+            android:layout_height="216dp"
             android:layout_marginTop="100dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -126,6 +115,14 @@
             android:layout_height="476dp">
 
         </FrameLayout>
+
+        <ImageView
+            android:id="@+id/backimgview"
+            android:layout_width="46dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="5dp"
+            android:onClick="back_click"
+            app:srcCompat="@drawable/ic_keyboard_backspace_black_24dp" />
 
     </com.camerakit.CameraKitView>
 

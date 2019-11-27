@@ -40,18 +40,19 @@
         android:contentDescription="@string/todo" />
 
     <EditText
-        android:id="@+id/edtName"
+        android:id="@+id/edt_enter_name"
         android:layout_width="329dp"
-        android:layout_height="56dp"
+        android:layout_height="70dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="112dp"
         android:autofillHints=""
         android:background="@drawable/round_textbox"
+        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:ems="10"
         android:hint="@string/enter_your_name"
-        android:inputType="textShortMessage|text"
         android:paddingStart="10dp"
         android:textColorHint="#B0252525"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"

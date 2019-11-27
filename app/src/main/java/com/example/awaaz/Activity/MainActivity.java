@@ -1,6 +1,7 @@
 package com.example.awaaz.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Guideline;
+
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
 import com.example.awaaz.Class.LiveVideo;
@@ -24,10 +27,16 @@ import java.math.BigDecimal;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 import spencerstudios.com.fab_toast.FabToast;
 
 public class MainActivity extends AppCompatActivity {
 
+FloatingActionButton fab1;
+    Guideline guideline;
     private CameraKitView cameraKitView;
     MFabButtons mFabButtons;
     FloatingActionButton fab_button_1;
@@ -37,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
     MySurface mySurface;
     SLR slr;
     boolean check=true;
-
-
+    GuideView mGuideView;
+    GuideView.Builder builder;
+    ImageView back;
     public void back_click(View view) {
         Intent intent=new Intent(this,HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -56,33 +66,31 @@ public class MainActivity extends AppCompatActivity {
         mySurface = new MySurface(this);
         frameLayout = findViewById(R.id.frameLayout);
         frameLayout.addView(mySurface);
+        guideline = findViewById(R.id.guideline);
         imageView = findViewById(R.id.imgView);
         cameraKitView = findViewById(R.id.camera);
         slider = findViewById(R.id.fluidSlider);
-
-        slr=getIntent().getParcelableExtra("SLR");
-        slr.setLiveVideo(new LiveVideo(1,true,this,cameraKitView,2000,imageView));
+        back = findViewById(R.id.backimgview);
+        fab1 = findViewById(R.id.fab_button_1);
+        slr = getIntent().getParcelableExtra("SLR");
+        slr.setLiveVideo(new LiveVideo(1, true, this, cameraKitView, 2000, imageView));
         setType();
-        if(OpenCVLoader.initDebug())
-        {
+        if (OpenCVLoader.initDebug()) {
             Log.e("Opencv", "Loaded");
-        }
-        else {
+        } else {
             FabToast.makeText(MainActivity.this, "Unable to attach OpenCV", FabToast.LENGTH_LONG, FabToast.ERROR, FabToast.POSITION_DEFAULT).show();
             try {
                 Thread.sleep(2000);
                 finish();
                 System.exit(0);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         setfluidSlider();
 
+
     }
-
-
 
     public static float round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
@@ -152,6 +160,40 @@ public class MainActivity extends AppCompatActivity {
             public void onLongTap(CameraKitView cameraKitView, float v, float v1) {
                 if (check){
                     fab_button_1.show();
+                    SharedPreferences pref = getSharedPreferences("users", MODE_PRIVATE);
+                    String ee = pref.getString("login", "notdone");
+                    if (ee.equals("done")) {
+                        builder = new GuideView.Builder(MainActivity.this)
+                                .setTitle("Step 1")
+                                .setContentText("You should make sign in the Red box\n for accurate interpretation of Sign")
+                                .setGravity(Gravity.center)
+                                .setDismissType(DismissType.outside)
+                                .setTargetView(frameLayout)
+                                .setGuideListener(new GuideListener() {
+                                    @Override
+                                    public void onDismiss(View view) {
+                                        switch (view.getId()) {
+                                            case R.id.frameLayout:
+                                                builder.setTitle("Step 2").setContentText("Long press on screen to Enable Interval Options.!").setGravity(Gravity.center).setDismissType(DismissType.outside).setTargetView(guideline).build();
+                                                break;
+                                            case R.id.guideline:
+                                                builder.setTitle("Step 3").setContentText("Click here for Further configuration.!").setGravity(Gravity.center).setDismissType(DismissType.outside).setTargetView(fab1).build();
+                                                break;
+                                            case R.id.fab_button_1:
+                                                builder.setTitle("Step 4").setContentText("Return to the HomePage.!").setGravity(Gravity.center).setDismissType(DismissType.outside).setTargetView(back).build();
+                                                break;
+                                            case R.id.backimgview:
+                                                return;
+                                        }
+                                        mGuideView = builder.build();
+                                        mGuideView.show();
+                                    }
+                                });
+
+                        mGuideView = builder.build();
+                        mGuideView.show();
+
+                    }
                     check=false;
                 }
                 else{
