@@ -17,19 +17,19 @@ import com.google.android.material.card.MaterialCardView;
 
 public class HomeActivity extends AppCompatActivity {
 
-
-    ImageView imageView;
-    LinearLayout linearLayout;
     MaterialCardView upload_cardview,live_cardview;
     SLR slr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         live_cardview = findViewById(R.id.livecardview);
         upload_cardview = findViewById(R.id.uploadcardview);
         slr=new SLR(1,this);
+
         live_cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

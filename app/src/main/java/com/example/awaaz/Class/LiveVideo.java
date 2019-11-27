@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.camerakit.CameraKitView;
 
@@ -83,9 +84,18 @@ public class LiveVideo {
         this.interval=interval;
         this.imageView=imageView;
         facing=Mode.back;
-        getFrames();
+        openCamera();
+        captureFrames();
     }
-    public void getFrames(){
+    public void openCamera(){
+        try{
+            cameraKitView.onStart();
+        }
+        catch (Exception e){
+            Toast.makeText(context, "Unable to Open Camera...", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void captureFrames(){
         Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {

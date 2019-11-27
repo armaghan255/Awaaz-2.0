@@ -35,13 +35,9 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     ImageView imageView;
     MySurface mySurface;
-    Bitmap background;
     SLR slr;
-    int interval;
     boolean check=true;
 
-    public void flipcamera_click(View view) {
-    }
 
     public void back_click(View view) {
         Intent intent=new Intent(this,HomeActivity.class);
@@ -63,12 +59,9 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imgView);
         cameraKitView = findViewById(R.id.camera);
         slider = findViewById(R.id.fluidSlider);
-        Log.e("Tag","Frame Layout"+frameLayout.getWidth());
-        Log.e("Tag","Frame Layout"+frameLayout.getHeight());
 
         slr=getIntent().getParcelableExtra("SLR");
         slr.setLiveVideo(new LiveVideo(1,true,this,cameraKitView,2000,imageView));
-
         setType();
         if(OpenCVLoader.initDebug())
         {
@@ -98,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setfluidSlider() {
-        final float max = 7;
-        final float min = 1;
+        final float max = 5;
+        final float min = 2;
         final float total = max - min;
         slider.setBeginTrackingListener(new Function0<Unit>() {
             @Override
@@ -115,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         slider.setPositionListener(pos -> {
-            String value = String.valueOf( round((float) (min + total * pos),2) );
+            String value = String.valueOf( round((float) (min + total * pos),3) );
             double temp=Double.parseDouble(value);
             temp=temp*1000;
             slr.setInterval((int)temp);
@@ -143,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        cameraKitView.onStart();
     }
 
     @Override
@@ -185,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     @Override
@@ -203,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
     }
 

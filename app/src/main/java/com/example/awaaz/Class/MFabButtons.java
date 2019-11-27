@@ -22,7 +22,6 @@ FluidSlider slider;
         this.fab_button_4 = fab_button_4;
         this.slider = slider;
         this.context = context;
-
        setFabTranslationY();
        setFabClicks();
     }
