@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -69,6 +69,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:rippleColor="#28FFFFFF" />
 
+
     <com.ramotion.fluidslider.FluidSlider
         android:id="@+id/fluidSlider"
         android:layout_width="match_parent"
@@ -102,15 +103,10 @@
             android:layout_gravity="right"
             android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
-            android:onClick="flipcamera_click"
+            android:onClick="back_click"
             android:background="@drawable/flipcameraicon" />
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </FrameLayout>
 
         <ImageView
             android:id="@+id/imgView"
@@ -121,6 +117,16 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </ImageView>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="75dp"
+            android:layout_width="248dp"
+            android:layout_height="476dp">
+
+        </FrameLayout>
+
     </com.camerakit.CameraKitView>
 
     <androidx.constraintlayout.widget.Guideline
