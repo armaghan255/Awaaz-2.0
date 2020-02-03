@@ -23,7 +23,5 @@ public class Interpretor extends User {
     public Interpretor(int id) {
         super(id);
     }
-    public void startLiveVideo(){
 
-    }
 }

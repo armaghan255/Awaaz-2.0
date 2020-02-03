@@ -1,5 +1,7 @@
 package com.example.awaaz.Class;
 
+
+
 public class User {
     int id;
 
@@ -15,3 +17,4 @@ public class User {
         this.id = id;
     }
 }
+

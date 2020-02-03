@@ -85,7 +85,6 @@ public class LiveVideo {
         this.imageView=imageView;
         facing=Mode.back;
         openCamera();
-        captureFrames();
     }
     public void openCamera(){
         try{

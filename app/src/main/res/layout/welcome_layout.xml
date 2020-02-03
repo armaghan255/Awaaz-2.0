@@ -13,7 +13,7 @@
         android:layout_height="111dp"
         android:fontFamily="@font/montserrat_regular"
         android:gravity="center"
-        android:text="Welcome Ali"
+        android:text="@string/welcome_ali"
         android:textColor="@color/black"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/content" />
+        app:srcCompat="@drawable/content"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/continues"
@@ -40,18 +41,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_note_textview"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/continuebutton" />
+        app:srcCompat="@drawable/continuebutton"
+        android:contentDescription="@string/todo" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/welcome_note_textview"
         android:layout_width="381dp"
         android:layout_height="82dp"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/montserrat_regular"
         android:gravity="center"
-        android:text="Thankyou for Downloading this application in case of any issue contact our support."
+        android:text="@string/thankyou_for_downloading_this_application_in_case_of_any_issue_contact_our_support"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"

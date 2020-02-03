@@ -53,16 +53,14 @@ public class UploadImage {
                                 Utils.bitmapToMat(bitmap,src);
                                 Frame frame=new Frame(i,src);
                                 addFrame(frame);
-                                FabToast.makeText(context, getFrameList().size()+"Pictures Uploaded.!", FabToast.LENGTH_LONG, FabToast.SUCCESS, FabToast.POSITION_CENTER).show();
+                                FabToast.makeText(context, getFrameList().size()+" Pictures Uploaded.!", FabToast.LENGTH_LONG, FabToast.SUCCESS, FabToast.POSITION_DEFAULT).show();
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
 
                         }
-
                     }
                 });
-
     }
 
 

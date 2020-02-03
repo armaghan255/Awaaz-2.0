@@ -26,9 +26,9 @@ public class OnBoardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_on_boarding);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        PaperOnboardingPage page = new PaperOnboardingPage("\n\nLIVE PREVIEW","\nNow you Know the meaning of the signs with a live preview", Color.parseColor("#F7F9F9"),R.drawable.onboard1,R.drawable.onboard1);
-        PaperOnboardingPage page1 = new PaperOnboardingPage("HELP WHO NEEDS","A life may depend on a gesture from you, a bottle of Blood.!", Color.parseColor("#F7F9F9"),R.drawable.onboard2,R.drawable.onboard2);
-        PaperOnboardingPage page2 = new PaperOnboardingPage("FRONT FACING","Now You can record your own signs by Double tapping on camera view.!", Color.parseColor("#F7F9F9"),R.drawable.frontface_1,R.drawable.frontface_1);
+        PaperOnboardingPage page = new PaperOnboardingPage("\n\n\nLIVE PREVIEW","\nNow you Know the meaning of the signs with a live preview", Color.parseColor("#F7F9F9"),R.drawable.onboard1,R.drawable.onboard1);
+        PaperOnboardingPage page1 = new PaperOnboardingPage("NO NEED OF INTERPRETOR","\nCommunication gap between normal and deaf person is reduced", Color.parseColor("#F7F9F9"),R.drawable.onboard4,R.drawable.onboard4);
+        PaperOnboardingPage page2 = new PaperOnboardingPage("\n\n\nFRONT FACING","\nNow You can record your own signs by Double tapping on camera view", Color.parseColor("#F7F9F9"),R.drawable.frontface_1,R.drawable.frontface_1);
         ArrayList<PaperOnboardingPage> arrayList = new ArrayList<>();
         arrayList.add(page);
         arrayList.add(page1);

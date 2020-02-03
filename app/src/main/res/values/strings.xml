@@ -2,5 +2,13 @@
     <string name="app_name">Awaaz</string>
     <string name="enter_your_name">Enter Your Name</string>
     <string name="todo">TODO</string>
+    <string name="i_choose_not_to_place_dis_in_my_ability">I choose not to place ‘DIS’, in my ability</string>
+    <string name="welcome_ali">Welcome Ali</string>
+    <string name="thankyou_for_downloading_this_application_in_case_of_any_issue_contact_our_support">Thankyou for Downloading this application in case of any issue contact our support.</string>
+    <string name="you_can_upload_a_single_and_multiple_images_from_gallery">You can upload a single and multiple Images from Gallery.</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="home">HOME</string>
+    <string name="live_interpretation_of_signs_with_prediction_and_auto_voice_generated">Live Interpretation of signs with prediction and auto voice generated.</string>
+    <string name="live_video">Live Video</string>
 
 </resources>

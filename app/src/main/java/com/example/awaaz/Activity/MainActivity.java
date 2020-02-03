@@ -45,7 +45,7 @@ FloatingActionButton fab1;
     ImageView imageView;
     MySurface mySurface;
     SLR slr;
-    boolean check=true;
+    boolean hideCheck=true;
     GuideView mGuideView;
     GuideView.Builder builder;
     ImageView back;
@@ -115,8 +115,9 @@ FloatingActionButton fab1;
                 return Unit.INSTANCE;
             }
         });
-        slider.setPositionListener(pos -> {
-            String value = String.valueOf( round((float) (min + total * pos),3) );
+
+        slider.setPositionListener(pos -> { // function calls when slider value is updated
+            String value = String.valueOf( round((float) (min + total * pos),1) );
             double temp=Double.parseDouble(value);
             temp=temp*1000;
             slr.setInterval((int)temp);
@@ -158,11 +159,11 @@ FloatingActionButton fab1;
 
             @Override
             public void onLongTap(CameraKitView cameraKitView, float v, float v1) {
-                if (check){
+                if (hideCheck){
                     fab_button_1.show();
                     SharedPreferences pref = getSharedPreferences("users", MODE_PRIVATE);
-                    String ee = pref.getString("login", "notdone");
-                    if (ee.equals("done")) {
+                    String guidlinecheck = pref.getString("login", "notdone");
+                    if (guidlinecheck.equals("done")) {
                         builder = new GuideView.Builder(MainActivity.this)
                                 .setTitle("Step 1")
                                 .setContentText("You should make sign in the Red box\n for accurate interpretation of Sign")
@@ -183,22 +184,22 @@ FloatingActionButton fab1;
                                                 builder.setTitle("Step 4").setContentText("Return to the HomePage.!").setGravity(Gravity.center).setDismissType(DismissType.outside).setTargetView(back).build();
                                                 break;
                                             case R.id.backimgview:
+                                                slr.getLiveVideo().captureFrames();
                                                 return;
                                         }
                                         mGuideView = builder.build();
                                         mGuideView.show();
                                     }
                                 });
-
                         mGuideView = builder.build();
                         mGuideView.show();
 
                     }
-                    check=false;
+                    hideCheck=false;
                 }
                 else{
                     fab_button_1.hide();
-                    check=true;
+                    hideCheck=true;
                 }
             }
 
